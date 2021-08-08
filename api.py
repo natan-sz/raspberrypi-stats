@@ -117,6 +117,9 @@ def fanupdate():
     resp = jsonify(success=True)
     return resp
 
+# Obtains Stats from Nexmo API for bubuslover project
+# The caching function works by appending a response 
+# to a list if one has not been added in the last hour
 @app.route("/get-nexmo-stats")
 @cross_origin()
 def nexmo_stats():
