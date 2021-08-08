@@ -12,12 +12,17 @@ import psutil
 import time
 import datetime
 import math
+from dotenv import load_dotenv
 from fanctrl import FanController
+import os
+import requests
 
 app = Flask(__name__)
 fan = FanController()
 cors = CORS(app,resources={r"/*": {"origins": "*"}})
 app.config['CORS_HEADERS'] = 'Content-Type'
+load_dotenv()
+
 
 ## TODO
 # - Percentage of CPU
@@ -79,7 +84,6 @@ def get_stats():
 @cross_origin()
 def temp():
     response = jsonify(get_stats())
-    #response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
 @app.route("/fan-update",methods=["POST"])
@@ -91,6 +95,14 @@ def fanupdate():
     resp = jsonify(success=True)
     return resp
 
+@app.route("/get-nexmo-stats",methods=["POST"])
+@cross_origin()
+def nexmo_stats():
+    secret = os.environ["NEXMO_SECRET"]
+    key = os.environ["NEXMO_KEY"]
+    url = "https://rest.nexmo.com/account/get-balance"
+    res = requests.get(url,data={"api_key":key,"api_secret":secret})
+    return res.text
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0")
