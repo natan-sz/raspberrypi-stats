@@ -98,7 +98,7 @@ def get_nexmo_stats(date):
     mes1 = requests.get(mes_url,params={"api_key":key,"api_secret":secret,"to":"447427684371","date":date}).json()
     mes2 = requests.get(mes_url,params={"api_key":key,"api_secret":secret,"to":"447427684371","date":yesterday.strftime("%Y-%m-%d")}).json()
 
-    res = {"balance":balance, "latestMessages": [mes1["items"],mes2["items"]]}
+    res = {"balance":balance, "latestMessages": mes1["items"]+mes2["items"]}
     return res
 
 
