@@ -100,6 +100,7 @@ def fanupdate():
 def nexmo_stats():
     secret = str(os.environ["NEXMO_SECRET"])
     key = str(os.environ["NEXMO_KEY"])
+    print("method ran")
     print(key)
     url = "https://rest.nexmo.com/account/get-balance"
     res = requests.get(url,data={"api_key":key,"api_secret":secret})
