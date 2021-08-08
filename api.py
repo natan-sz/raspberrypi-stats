@@ -102,7 +102,7 @@ def nexmo_stats():
     key = str(os.environ["NEXMO_KEY"])
     url = "https://rest.nexmo.com/account/get-balance"
     res = requests.get(url,params={"api_key":key,"api_secret":secret})
-    return res.json()
+    return jsonify(res.json())
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0")
