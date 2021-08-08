@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 
+# API which serves the statistics for the raspberry pi and allows for basic
+# functionality such as :
+
 from flask import Flask, jsonify, redirect, request
 
 import json
@@ -55,11 +58,15 @@ def get_stats():
 
     # Calculate Usage : Mem
     mem = psutil.virtual_memory()
-    mem_stats = {"total": convert_size(mem.total), "used": convert_size(mem.used), "percentage":mem.percent}
+    mem_stats = {"total": convert_size(mem.total),
+                 "used": convert_size(mem.used),
+                 "percentage":mem.percent}
 
     # Calculate Usage : DiskSpace
     disk = psutil.disk_usage("/")
-    disk_stats = {"total": convert_size(disk.total), "used": convert_size(disk.used), "percentage": disk.percent}
+    disk_stats = {"total": convert_size(disk.total),
+                  "used": convert_size(disk.used),
+                  "percentage": disk.percent}
 
     
     # Put it all together

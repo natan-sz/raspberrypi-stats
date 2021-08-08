@@ -1,5 +1,8 @@
 #!/usr/bin/python
 
+# This Module is used to control PIN 21 with a transistor connected to it which
+# adjusts the RPM on the fan cooling the fan
+
 import RPi.GPIO as GPIO
 
 FAN_PIN = 21
