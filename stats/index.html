@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
+    <title>Raspi Stats</title>
+</head>
+<body>
+    <div class="container">
+        <div class="meter">
+            <div class="stat">
+                <p class="stat-title">Uptime: </p>
+                <p id="uptime"></p>
+            </div>
+            <div class="stat">
+                <p class="stat-title">Temperature: </p>
+                <p id="temp"></p>
+                <p>°C</p>
+                <p id="therm"> ◉</p>
+            </div>
+            <div class="stat">
+                <p class="stat-title">CPU: </p>
+                <p id="cpu"></p>
+                <p>%</p>
+            </div>
+            <div class="stat">
+                <p class="stat-title">Memory: </p>
+                <p id="ramUsed"></p>
+                <p> / </p>
+                <p id="ramTot"></p>
+            </div>
+            <div class="stat">
+                <p class="stat-title">Disk: </p>
+                <p id="diskUsed"></p>
+                <p> / </p>
+                <p id="diskTot"></p>
+            </div>
+            <div class="stat">
+                <p class="stat-title">Fan Speed: </p>
+                <p id="fanSpeed"></p>
+            </div>
+        </div>
+        <div class="meter">
+            <label style="display: inline;word-wrap: break-word;" for="fanSlider" id="fanSliderSpeed"></label>
+            <input name="fanFreq" type="range" min="0" max="100" value="0" class="slider" id="fanSlider" oninput="updateSliderLabel(this.value)" onchange="updateSliderLabel(this.value)">
+            <button type="button" id="fanButton" onclick="updateFanSpeed()">Update</button>
+        </div>
+    </div>
+
+</body>
+<script src="main.js"></script>
+</html>
