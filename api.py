@@ -98,8 +98,9 @@ def fanupdate():
 @app.route("/get-nexmo-stats")
 @cross_origin()
 def nexmo_stats():
-    secret = os.environ["NEXMO_SECRET"]
-    key = os.environ["NEXMO_KEY"]
+    secret = str(os.environ["NEXMO_SECRET"])
+    key = str(os.environ["NEXMO_KEY"])
+    print(key)
     url = "https://rest.nexmo.com/account/get-balance"
     res = requests.get(url,data={"api_key":key,"api_secret":secret})
     return res.text
