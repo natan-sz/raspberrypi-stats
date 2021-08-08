@@ -98,11 +98,19 @@ def fanupdate():
 @app.route("/get-nexmo-stats")
 @cross_origin()
 def nexmo_stats():
+    balance_url = "https://rest.nexmo.com/account/get-balance"
+    mes_url = "https://rest.nexmo.com/search/messages"
+
     secret = str(os.environ["NEXMO_SECRET"])
     key = str(os.environ["NEXMO_KEY"])
-    url = "https://rest.nexmo.com/account/get-balance"
-    res = requests.get(url,params={"api_key":key,"api_secret":secret})
-    return jsonify(res.json())
+
+    today_date = datetime.datetime.now().strftime("%Y-%m-%d")
+
+    balance = requests.get(balance_url,params={"api_key":key,"api_secret":secret}).json()
+    mes = requests.get(mes_url,params={"api_key":key,"api_secret":secret,"to":"447427684371","date":today_date}).json()
+
+    res = {"balance":balance, "latestMessage": mes}
+    return jsonify(res)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0")
