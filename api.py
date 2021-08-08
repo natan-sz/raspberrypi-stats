@@ -85,17 +85,18 @@ def get_stats():
     return stats
 
 def get_nexmo_stats(date):
-    print("request function called")
     balance_url = "https://rest.nexmo.com/account/get-balance"
     mes_url = "https://rest.nexmo.com/search/messages"
 
     secret = str(os.environ["NEXMO_SECRET"])
     key = str(os.environ["NEXMO_KEY"])
 
+    yesterday = datetime.datetime.now() - datetime.timedelta(days=1)
+
     balance = requests.get(balance_url,params={"api_key":key,"api_secret":secret}).json()
     balance["value"] = c.convert(float(balance["value"]), 'EUR', 'GBP')
     mes1 = requests.get(mes_url,params={"api_key":key,"api_secret":secret,"to":"447427684371","date":date}).json()
-    mes2 = requests.get(mes_url,params={"api_key":key,"api_secret":secret,"to":"447427684371","date":date-datetime.timedelta(days=1)}).json()
+    mes2 = requests.get(mes_url,params={"api_key":key,"api_secret":secret,"to":"447427684371","date":yesterday.strftime("%Y-%m-%d")}).json()
 
     res = {"balance":balance, "latestMessages": [mes1,mes2]}
     return res
