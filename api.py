@@ -101,7 +101,7 @@ def nexmo_stats():
     secret = str(os.environ["NEXMO_SECRET"])
     key = str(os.environ["NEXMO_KEY"])
     url = "https://rest.nexmo.com/account/get-balance"
-    res = requests.get(url,data={"api_key":key,"api_secret":secret})
+    res = requests.get(url,params={"api_key":key,"api_secret":secret})
     return res.url
 
 if __name__ == "__main__":
