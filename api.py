@@ -91,12 +91,13 @@ def get_nexmo_stats(date):
     secret = str(os.environ["NEXMO_SECRET"])
     key = str(os.environ["NEXMO_KEY"])
 
-    yesterday = datetime.datetime.now() - datetime.timedelta(days=1)
+    today = datetime.datetime.now().strftime("%Y-%m-%d")
+    yesterday = (datetime.datetime.now() - datetime.timedelta(days=1)).strftime("%Y-%m-%d")
 
     balance = requests.get(balance_url,params={"api_key":key,"api_secret":secret}).json()
     balance["value"] = c.convert(float(balance["value"]), 'EUR', 'GBP')
-    mes1 = requests.get(mes_url,params={"api_key":key,"api_secret":secret,"to":"447427684371","date":date.strftime("%Y-%m-%d")}).json()
-    mes2 = requests.get(mes_url,params={"api_key":key,"api_secret":secret,"to":"447427684371","date":yesterday.strftime("%Y-%m-%d")}).json()
+    mes1 = requests.get(mes_url,params={"api_key":key,"api_secret":secret,"to":"447427684371","date":today}).json()
+    mes2 = requests.get(mes_url,params={"api_key":key,"api_secret":secret,"to":"447427684371","date":yesterday}).json()
 
     res = {"balance":balance, "latestMessages": mes1["items"]+mes2["items"]}
     return res
@@ -124,10 +125,10 @@ def fanupdate():
 @cross_origin()
 def nexmo_stats():
     print("endpoint function called")
-    today_date = datetime.datetime.now()
+    today_date = datetime.datetime.now().strftime("%Y-%m-%d-%H")
 
-    if today_date.strftime("%Y-%m-%d-%H") not in nexmo_response_cache:
-        nexmo_response_cache[today_date.strftime("%Y-%m-%d-%H")] = get_nexmo_stats(today_date)
+    if today_date not in nexmo_response_cache:
+        nexmo_response_cache[today_date] = get_nexmo_stats(today_date)
 
     return jsonify(nexmo_response_cache[today_date])
 
