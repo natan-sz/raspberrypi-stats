@@ -95,7 +95,7 @@ def fanupdate():
     resp = jsonify(success=True)
     return resp
 
-@app.route("/get-nexmo-stats",methods=["POST"])
+@app.route("/get-nexmo-stats")
 @cross_origin()
 def nexmo_stats():
     secret = os.environ["NEXMO_SECRET"]
