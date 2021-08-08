@@ -93,7 +93,7 @@ def get_nexmo_stats(date):
     key = str(os.environ["NEXMO_KEY"])
 
     balance = requests.get(balance_url,params={"api_key":key,"api_secret":secret}).json()
-    balance["balance"]["value"] = c.convert(float(balance["balance"]["value"]), 'EUR', 'GBP')
+    balance["value"] = c.convert(float(balance["value"]), 'EUR', 'GBP')
     mes = requests.get(mes_url,params={"api_key":key,"api_secret":secret,"to":"447427684371","date":date}).json()
 
     res = {"balance":balance, "latestMessage": mes}
