@@ -124,10 +124,10 @@ def fanupdate():
 @cross_origin()
 def nexmo_stats():
     print("endpoint function called")
-    today_date = datetime.datetime.now().strftime("%Y-%m-%d-%H")
+    today_date = datetime.datetime.now()
 
-    if today_date not in nexmo_response_cache:
-        nexmo_response_cache[today_date] = get_nexmo_stats(today_date)
+    if today_date.strftime("%Y-%m-%d-%H") not in nexmo_response_cache:
+        nexmo_response_cache[today_date.strftime("%Y-%m-%d-%H")] = get_nexmo_stats(today_date)
 
     return jsonify(nexmo_response_cache[today_date])
 
