@@ -93,7 +93,7 @@ def get_nexmo_stats(date):
     mes = requests.get(mes_url,params={"api_key":key,"api_secret":secret,"to":"447427684371","date":date}).json()
 
     res = {"balance":balance, "latestMessage": mes}
-    return res.json()
+    return res
 
 
 @app.route("/")
