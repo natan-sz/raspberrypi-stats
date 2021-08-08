@@ -23,6 +23,8 @@ cors = CORS(app,resources={r"/*": {"origins": "*"}})
 app.config['CORS_HEADERS'] = 'Content-Type'
 load_dotenv()
 
+nexmo_response_cache = dict()
+
 
 ## TODO
 # - Percentage of CPU
@@ -79,6 +81,20 @@ def get_stats():
 
     return stats
 
+def get_nexmo_stats(date):
+    print("request function called")
+    balance_url = "https://rest.nexmo.com/account/get-balance"
+    mes_url = "https://rest.nexmo.com/search/messages"
+
+    secret = str(os.environ["NEXMO_SECRET"])
+    key = str(os.environ["NEXMO_KEY"])
+
+    balance = requests.get(balance_url,params={"api_key":key,"api_secret":secret}).json()
+    mes = requests.get(mes_url,params={"api_key":key,"api_secret":secret,"to":"447427684371","date":date}).json()
+
+    res = {"balance":balance, "latestMessage": mes}
+    return res.json()
+
 
 @app.route("/")
 @cross_origin()
@@ -98,19 +114,13 @@ def fanupdate():
 @app.route("/get-nexmo-stats")
 @cross_origin()
 def nexmo_stats():
-    balance_url = "https://rest.nexmo.com/account/get-balance"
-    mes_url = "https://rest.nexmo.com/search/messages"
-
-    secret = str(os.environ["NEXMO_SECRET"])
-    key = str(os.environ["NEXMO_KEY"])
-
+    print("endpoint function called")
     today_date = datetime.datetime.now().strftime("%Y-%m-%d")
 
-    balance = requests.get(balance_url,params={"api_key":key,"api_secret":secret}).json()
-    mes = requests.get(mes_url,params={"api_key":key,"api_secret":secret,"to":"447427684371","date":today_date}).json()
+    if today_date not in nexmo_response_cache:
+        nexmo_response_cache[today_date] = get_nexmo_stats(today_date)
 
-    res = {"balance":balance, "latestMessage": mes}
-    return jsonify(res)
+    return jsonify(nexmo_response_cache[today_date])
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0")
