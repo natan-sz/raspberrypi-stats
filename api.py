@@ -16,6 +16,7 @@ from dotenv import load_dotenv
 from fanctrl import FanController
 import os
 import requests
+from currency_converter import CurrencyConverter
 
 app = Flask(__name__)
 fan = FanController()
@@ -23,7 +24,9 @@ cors = CORS(app,resources={r"/*": {"origins": "*"}})
 app.config['CORS_HEADERS'] = 'Content-Type'
 load_dotenv()
 
+# Nexmo Caching and conversion
 nexmo_response_cache = dict()
+c = CurrencyConverter()
 
 
 ## TODO
@@ -90,6 +93,7 @@ def get_nexmo_stats(date):
     key = str(os.environ["NEXMO_KEY"])
 
     balance = requests.get(balance_url,params={"api_key":key,"api_secret":secret}).json()
+    balance["balance"]["value"] = c.convert(float(balance["balance"]["value"]), 'EUR', 'GBP')
     mes = requests.get(mes_url,params={"api_key":key,"api_secret":secret,"to":"447427684371","date":date}).json()
 
     res = {"balance":balance, "latestMessage": mes}
