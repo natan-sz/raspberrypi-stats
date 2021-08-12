@@ -67,6 +67,7 @@ window.addEventListener('load', function () {
     });
 
 	fetchStatus();
+	fetchNexmoStats();
 
     // Your document is loaded.
     var fetchInterval = 1000; // 1 second.
