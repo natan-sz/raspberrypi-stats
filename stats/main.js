@@ -34,6 +34,7 @@ function fetchNexmoStats() {
 	.then(data => {return data.json()})
 	.then(res=>{
 		document.getElementById("nexmoBalance").innerHTML = res.value.toFixed(2);
+		console.log(res);
 
 	});
 }
