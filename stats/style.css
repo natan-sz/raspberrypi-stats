@@ -34,7 +34,7 @@ button:hover {
 
 .title{
     color:hsl(205, 16%, 15%);
-    text-align: center;
+    align-self: center;
 }
 
 .meter {
