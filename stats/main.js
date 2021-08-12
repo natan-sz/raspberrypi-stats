@@ -33,8 +33,8 @@ function fetchNexmoStats() {
 	fetch(url+"get-nexmo-stats")
 	.then(data => {return data.json()})
 	.then(res=>{
-		let balance = parseFloat(res.balance.value)
-		document.getElementById("nexmoBalance").innerHTML = "£" + toString(balance.toFixed(2));
+		let balance = parseFloat(res.balance.value).toFixed(2);
+		document.getElementById("nexmoBalance").innerHTML = "£" + toString(balance);
 		console.log(res);
 	});
 }
