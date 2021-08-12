@@ -33,9 +33,9 @@ function fetchNexmoStats() {
 	fetch(url+"get-nexmo-stats")
 	.then(data => {return data.json()})
 	.then(res=>{
-		document.getElementById("nexmoBalance").innerHTML = res.value.toFixed(2);
+		let balance = parseFloat(res.value)
+		document.getElementById("nexmoBalance").innerHTML = balance.toFixed(2);
 		console.log(res);
-
 	});
 }
 
