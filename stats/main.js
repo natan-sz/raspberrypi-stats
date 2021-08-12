@@ -8,10 +8,6 @@ const body = document.body;
 // API URL
 const url = "http://192.168.0.75:5000/";
 
-// Function which runs on load
-document.addEventListener('DOMContentLoaded', function() {
-}, false);
-
 // Polling function gets called every time interval 
 function fetchStatus() {
     fetch(url)
@@ -31,6 +27,15 @@ function fetchStatus() {
 		console.log(res);
 
     });
+}
+
+function fetchNexmoStats() {
+	fetch(url+"get-nexmo-stats")
+	.then(data => {return data.json()})
+	.then(res=>{
+		document.getElementById("nexmoBalance").innerHTML = res.value.toFixed(2);
+
+	});
 }
 
 // Function calls POST request with the desired speed to the /fan-update endpoint
