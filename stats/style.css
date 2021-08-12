@@ -33,8 +33,9 @@ button:hover {
 }
 
 .title{
-    color:hsl(205, 16%, 15%);
+    color:white;
     align-self: center;
+	text-shadow: 2px 2px 4px #000000;
 }
 
 .meter {
