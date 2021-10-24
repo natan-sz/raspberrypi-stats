@@ -8,7 +8,6 @@ const body = document.body;
 // API URL
 const url = "http://192.168.0.75:5000/";
 
-document.getElementById("nexmoBalance").innerHTML = `<div class="loader"></div>`
 
 // Polling function gets called every time interval 
 function fetchStatus() {
@@ -61,6 +60,8 @@ function updateSliderLabel(value) {
 }
 
 window.addEventListener('load', function () {
+
+	document.getElementById("nexmoBalance").innerHTML = `<div class="loader"></div>`
 
     fetch(url)
     .then(data=>{return data.json()})
